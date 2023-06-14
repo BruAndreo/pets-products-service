@@ -31,3 +31,21 @@ func GetProducts(c *fiber.Ctx) error {
 	database.Database.Find(&products)
 	return c.Status(fiber.StatusOK).JSON(products)
 }
+
+func GetProductById(c *fiber.Ctx) error {
+	id, err := c.ParamsInt("id")
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Invalid id param",
+		})
+	}
+
+	var product domain.Product
+
+	result := database.Database.Find(&product, id)
+	if result.RowsAffected < 1 {
+		return c.SendStatus(fiber.StatusNotFound)
+	}
+
+	return c.Status(fiber.StatusOK).JSON(product)
+}
