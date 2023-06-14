@@ -1,12 +1,20 @@
 package main
 
 import (
+	"log"
+
 	"github.com/bruandreo/pets-products-service/handlers"
+	"github.com/bruandreo/pets-products-service/internal/database"
 	"github.com/gofiber/fiber/v2"
 )
 
 func main() {
 	app := fiber.New()
+
+	err := database.Connect()
+	if err != nil {
+		log.Fatal(err.Error())
+	}
 
 	app.Get("/health", func(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusOK).JSON(map[string]string{
