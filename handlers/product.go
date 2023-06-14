@@ -49,3 +49,32 @@ func GetProductById(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusOK).JSON(product)
 }
+
+func UpdateProduct(c *fiber.Ctx) error {
+	id, err := c.ParamsInt("id")
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Invalid id param",
+		})
+	}
+
+	product := domain.Product{}
+
+	if err := c.BodyParser(&product); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Invalid product",
+		})
+	}
+
+	result := database.Database.Where("id = ?", id).Updates(&product)
+
+	if result.RowsAffected <= 0 {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": "Product not updated",
+		})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "Product Updated",
+	})
+}

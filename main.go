@@ -25,6 +25,7 @@ func main() {
 	app.Post("/products", handlers.NewProduct)
 	app.Get("/products", handlers.GetProducts)
 	app.Get("/products/:id", handlers.GetProductById)
+	app.Put("/products/:id", handlers.UpdateProduct)
 
 	app.Listen(":3002")
 }
