@@ -26,6 +26,7 @@ func main() {
 	app.Get("/products", handlers.GetProducts)
 	app.Get("/products/:id", handlers.GetProductById)
 	app.Put("/products/:id", handlers.UpdateProduct)
+	app.Delete("/products/:id", handlers.RemoveProduct)
 
 	app.Listen(":3002")
 }

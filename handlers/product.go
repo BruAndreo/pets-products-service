@@ -78,3 +78,21 @@ func UpdateProduct(c *fiber.Ctx) error {
 		"message": "Product Updated",
 	})
 }
+
+func RemoveProduct(c *fiber.Ctx) error {
+	id, err := c.ParamsInt("id")
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Invalid id param",
+		})
+	}
+
+	product := domain.Product{}
+
+	result := database.Database.Delete(&product, id)
+	if result.RowsAffected == 0 {
+		return c.SendStatus(fiber.StatusNotFound)
+	}
+
+	return c.SendStatus(fiber.StatusOK)
+}
