@@ -7,12 +7,12 @@ import (
 )
 
 var Database *gorm.DB
-var DSN string = "host=localhost user=pets_svc password=pets_123 dbname=pets_store port=5432 sslmode=disable TimeZone=America/Sao_Paulo"
+var dsn string = "host=localhost user=pets_svc password=pets_123 dbname=pets_store port=5432 sslmode=disable TimeZone=America/Sao_Paulo"
 
 func Connect() error {
 	var err error
 
-	Database, err = gorm.Open(postgres.Open(DSN), &gorm.Config{})
+	Database, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
 	if err != nil {
 		return err
