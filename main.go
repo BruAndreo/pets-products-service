@@ -23,6 +23,7 @@ func main() {
 	})
 
 	app.Post("/products", handlers.NewProduct)
+	app.Get("/products", handlers.GetProducts)
 
 	app.Listen(":3002")
 }

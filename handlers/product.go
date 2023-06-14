@@ -24,3 +24,10 @@ func NewProduct(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusCreated).JSON(product)
 }
+
+func GetProducts(c *fiber.Ctx) error {
+	var products []domain.Product
+
+	database.Database.Find(&products)
+	return c.Status(fiber.StatusOK).JSON(products)
+}
